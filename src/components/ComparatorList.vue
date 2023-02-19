@@ -1,16 +1,16 @@
 <template>
 <div class="container_comparator">
-  <ProductListing />
-  <ProductListing />
+  <ListItem />
+  <ListItem />
 </div>
 </template>
 
 <script>
-import ProductListing from "@/components/ProductListing.vue";
+import ListItem from "@/components/ListItem.vue";
 
 export default {
   name: "ComparatorList",
-  components: {ProductListing}
+  components: {ListItem}
 }
 </script>
 

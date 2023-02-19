@@ -1,22 +1,30 @@
 <template>
   <div class="item" :style="itemStyles">
-    <img :src=img :alt=title>
+    <img :src=image :alt=marque>
     <div class="details">
-      <p>{{ title }}</p>
+      <p>marque: {{ marque }}</p>
+      <p>Volume: {{ volume }} Litres</p>
+      <p>prix: {{ prix }} Euros</p>
       <!-- This is the modal with the default close button -->
-      <div id="modal-close-default" uk-modal>
+      <div id="modal-close-default" uk-modal v-if="inComparator">
         <div class="uk-modal-dialog uk-modal-body">
           <button class="uk-modal-close-default" type="button" uk-close></button>
           <ItemDetails
               class="modalItemDetails"
-              :title=title
+              :marque=marque
               :description=description
-              :img=img
+              :image=image
+              :logoMarque=logoMarque
+              :prix=prix
+              :source=source
+              :type=type
+              :typeBouchon=typeBouchon
+              :volume=volume
           />
         </div>
       </div>
 
-      <p uk-margin>
+      <p uk-margin v-if="inComparator">
         <button class="uk-button uk-button-default uk-margin-right" type="button" uk-toggle="target: #modal-close-default">Details</button>
         <button class="uk-button uk-button-default" type="button" @click="select">Selectionner</button>
       </p>
@@ -33,10 +41,17 @@ export default {
   name: "ItemRow",
   components: {ItemDetails},
   props: {
-    img: String,
-    title: String,
+    image: String,
+    logoMarque: String,
+    marque: String,
     description : String,
-    compare: Number
+    prix: Number,
+    source: String,
+    type: String,
+    typeBouchon: String,
+    volume: Number,
+    compare: Number,
+    inComparator : Boolean
   },
   data() {
     return {
@@ -61,7 +76,6 @@ export default {
       } else if (!this.selected && this.compare > 1) {
         this.compare--
       }
-      console.log(this.compare)
     }
   },
 }

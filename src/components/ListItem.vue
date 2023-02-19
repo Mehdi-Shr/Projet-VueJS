@@ -1,9 +1,16 @@
 <template>
   <div class="itemList">
-    <ItemRow v-for="item in items"
-             :img = item.img
-             :title = item.title
-             :description = item.description
+    <ItemRow v-for="item in this.items"
+             :marque=item.marque
+             :description=item.description
+             :image=item.image
+             :logoMarque=item.logoMarque
+             :prix=item.prix
+             :source=item.source
+             :type=item.type
+             :typeBouchon=item.typeBouchon
+             :volume=item.volume
+             :in-comparator = true
     />
   </div>
 </template>
@@ -18,28 +25,18 @@ export default {
   name: "ListItem",
   data() {
     return {
-      items : [
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-      ]
+      items : [],
     }
+  },
+  methods : {
+    async getData() {
+      const res = await fetch("http://localhost:3333/products");
+      this.items = await res.json();
+      console.log(this.items)
+    }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <ListItem />
   </div>
 </template>
 
@@ -13,3 +13,6 @@
   }
 }
 </style>
+<script setup lang="ts">
+import ListItem from "@/components/ListItem.vue";
+</script>

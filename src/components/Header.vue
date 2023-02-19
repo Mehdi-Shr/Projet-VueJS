@@ -5,21 +5,12 @@
 
         <a class="uk-navbar-item uk-logo" href="#" aria-label="Back to Home"><img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /></a>
 
-        <ul class="uk-navbar-nav">
-          <li>
-            <a href="#">
-              <span class="uk-icon uk-margin-small-right" uk-icon="icon: star"></span>
-              Features
-            </a>
-          </li>
-        </ul>
-
         <div class="uk-navbar-item">
-          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/">Produits</RouterLink>
         </div>
 
         <div class="uk-navbar-item">
-          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/comparator">Comparateur</RouterLink>
         </div>
 
         <div class="uk-navbar-item">
