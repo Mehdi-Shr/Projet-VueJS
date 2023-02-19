@@ -14,13 +14,27 @@
           </li>
         </ul>
 
+          <div class="uk-navbar-item">
+            <RouterLink to="/">Home</RouterLink>
+          </div>
+
+          <div class="uk-navbar-item">
+            <RouterLink to="/about">About</RouterLink>
+          </div>
+
+      <template v-if="!$store.getters.isConnected">
+
         <div class="uk-navbar-item">
-          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/connexion">Connexion</RouterLink>
         </div>
 
         <div class="uk-navbar-item">
-          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/inscription">Inscription</RouterLink>
         </div>
+      </template>
+        <button @click="deconnexion" v-else>
+          Déconnexion
+        </button>
 
         <div class="uk-navbar-item">
           <form action="javascript:void(0)">
@@ -36,7 +50,12 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+    deconnexion() {
+      this.$store.dispatch("deconnexion")
+    }
+  }
 }
 </script>
 
