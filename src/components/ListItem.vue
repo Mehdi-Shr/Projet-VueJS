@@ -1,6 +1,8 @@
 <template>
   <div class="itemList">
+    <div v-if="loading" class="loader"></div>
     <ItemRow v-for="item in this.items"
+             :id=item._id
              :marque=item.marque
              :description=item.description
              :image=item.image
@@ -10,7 +12,8 @@
              :type=item.type
              :typeBouchon=item.typeBouchon
              :volume=item.volume
-             :in-comparator = true
+             :qualite=item.qualite
+             :in-comparator = inComparator
     />
   </div>
 </template>
@@ -23,16 +26,20 @@ export default {
     ItemRow
   },
   name: "ListItem",
+  props: {
+    inComparator : Boolean
+  },
   data() {
     return {
       items : [],
+      loading: true
     }
   },
   methods : {
     async getData() {
       const res = await fetch("http://localhost:3333/products");
       this.items = await res.json();
-      console.log(this.items)
+      this.loading = false;
     }
   },
   mounted() {
@@ -46,6 +53,5 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-left:  50px;
 }
 </style>

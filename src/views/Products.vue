@@ -1,17 +1,21 @@
 <template>
-  <div class="about">
-    <ListItem />
-  </div>
+  <main class="products">
+    <h1>Nos eaux</h1>
+    <ListItem
+        :in-comparator=false
+    />
+  </main>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+.products {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
 }
+
 </style>
 <script setup lang="ts">
 import ListItem from "@/components/ListItem.vue";
