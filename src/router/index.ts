@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import Connexion from "@/views/Connexion.vue"
+import Inscription from "@/views/Inscription.vue"
 import Products from "@/views/Products.vue";
 import Comparator from "@/views/Comparator.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
@@ -10,6 +13,16 @@ const router = createRouter({
       path: '/',
       name: 'Products',
       component: Products
+    },
+    {
+      path: '/connexion',
+      name: 'connexion',
+      component: Connexion
+    },
+    {
+      path: '/inscription',
+      name: 'inscription',
+      component: Inscription
     },
     {
       path: '/comparator',
