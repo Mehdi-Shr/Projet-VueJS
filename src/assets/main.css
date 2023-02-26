@@ -10,6 +10,24 @@
     color: #ffff;
 }
 
+.button-go-back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #00A896;
+    width: 300px;
+    color: #fff;
+    border:  0px;
+    border-radius: 2%;
+    margin: 50px auto auto;
+}
+
+.button-go-back:hover {
+    background-color: #02C39A;
+    color: #fff;
+}
+
 h1 {
     margin-bottom: 50px;
     color: #05668D;
