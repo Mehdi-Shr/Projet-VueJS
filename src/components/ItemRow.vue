@@ -1,42 +1,47 @@
 <template>
   <div class="item" :style="itemStyles">
-    <img :src=img :alt=title>
+    <img :src=image :alt=marque>
     <div class="details">
-      <p>{{ title }}</p>
-      <!-- This is the modal with the default close button -->
-      <div id="modal-close-default" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body">
-          <button class="uk-modal-close-default" type="button" uk-close></button>
-          <ItemDetails
-              class="modalItemDetails"
-              :title=title
-              :description=description
-              :img=img
-          />
-        </div>
-      </div>
+      <p><span class="infos-product">marque :</span> {{ marque }}</p>
+      <p><span class="infos-product">Volume :</span> {{ volume }} Litres</p>
+      <p><span class="infos-product">prix :</span> {{ prix }} Euros</p>
+      <p><span class="infos-product">Qualité :</span> {{ qualite }}</p>
+      <p><span class="infos-product">Rapport qualité/prix :</span> {{ rapportQP }} %</p>
 
-      <p uk-margin>
-        <button class="uk-button uk-button-default uk-margin-right" type="button" uk-toggle="target: #modal-close-default">Details</button>
-        <button class="uk-button uk-button-default" type="button" @click="select">Selectionner</button>
+      <p uk-margin v-if="inComparator">
+        <router-link class="uk-button uk-button-default uk-margin-right button"
+                    :to="{ name: 'ProductDetails',params: {id: id}}">Details
+        </router-link>
+
+        <button class="uk-button uk-button-default button" type="button" @click="select">Selectionner</button>
       </p>
 
     </div>
-
   </div>
+  <hr class="rounded">
 </template>
 
 <script>
-import ItemDetails from "@/components/ItemDetails.vue";
+import ProductDetails from "@/views/ProductDetails.vue"
+import eventBus from '@/event-bus.js';
 
 export default {
   name: "ItemRow",
-  components: {ItemDetails},
+  components: {ProductDetails},
   props: {
-    img: String,
-    title: String,
+    id: Number,
+    image: String,
+    logoMarque: String,
+    marque: String,
     description : String,
-    compare: Number
+    prix: Number,
+    source: String,
+    type: String,
+    typeBouchon: String,
+    volume: Number,
+    qualite: String,
+    compare: Number,
+    inComparator : Boolean
   },
   data() {
     return {
@@ -47,21 +52,33 @@ export default {
   },
   computed : {
     itemStyles(){
-      return this.selected ? "background-color: red" : ""
+      return this.selected ? "background-color: #F0F3BD" : ""
     },
+    rapportQP() {
+      return this.qualite/this.prix
+    }
   },
   methods: {
     toggle () {
       this.modal = !this.modal
     },
-    select (){
-      this.selected = !this.selected
-      if (this.selected && this.compare < 2) {
-        this.compare++
-      } else if (!this.selected && this.compare > 1) {
-        this.compare--
+    select() {
+      this.selected = !this.selected;
+      if (this.selected) {
+        this.compare++;
+        if (this.compare <= 2) {
+          eventBus.$emit('item-selected', {
+            id: this.id,
+            image: this.image,
+            marque: this.marque,
+            volume: this.volume,
+            prix: this.prix
+          });
+        }
+      } else {
+        this.compare--;
+        eventBus.$emit('item-deselected', this.id);
       }
-      console.log(this.compare)
     }
   },
 }

@@ -1,9 +1,19 @@
 <template>
   <div class="itemList">
-    <ItemRow v-for="item in items"
-             :img = item.img
-             :title = item.title
-             :description = item.description
+    <div v-if="loading" class="loader"></div>
+    <ItemRow v-for="item in this.items"
+             :id=item._id
+             :marque=item.marque
+             :description=item.description
+             :image=item.image
+             :logoMarque=item.logoMarque
+             :prix=item.prix
+             :source=item.source
+             :type=item.type
+             :typeBouchon=item.typeBouchon
+             :volume=item.volume
+             :qualite=item.qualite
+             :in-comparator = inComparator
     />
   </div>
 </template>
@@ -16,30 +26,24 @@ export default {
     ItemRow
   },
   name: "ListItem",
+  props: {
+    inComparator : Boolean
+  },
   data() {
     return {
-      items : [
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },        {
-          img : 'src/assets/img/bottle.jpg',
-          title : "Cristaline",
-          description : "Cristaline c'est mon eau",
-        },
-      ]
+      items : [],
+      loading: true
     }
+  },
+  methods : {
+    async getData() {
+      const res = await fetch("http://localhost:3333/products");
+      this.items = await res.json();
+      this.loading = false;
+    }
+  },
+  mounted() {
+    this.getData()
   }
 }
 </script>
@@ -49,6 +53,5 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-left:  50px;
 }
 </style>
