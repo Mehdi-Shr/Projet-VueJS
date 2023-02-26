@@ -5,6 +5,7 @@ import Inscription from "@/views/Inscription.vue"
 import Products from "@/views/Products.vue";
 import Comparator from "@/views/Comparator.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
+import ProductCompare from "@/views/ProductCompare.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       name: 'ProductDetails',
       component: ProductDetails,
       props : true
+    },
+    {
+      path: '/product-compare',
+      name: 'ProductCompare',
+      component: ProductCompare,
     }
   ]
 })

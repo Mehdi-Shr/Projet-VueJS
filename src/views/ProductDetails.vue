@@ -1,7 +1,7 @@
 <template>
-<div>
+<div class="product-details">
   <div v-if="loading" class="loader"></div>
-  <div v-if="!loading" class="product-details">
+  <div v-if="!loading">
     <img :src=details.image :alt=details.marque>
     <h1>{{ details.marque }}</h1>
     <p><span class="infos-product">Description :</span> {{ details.description }}</p>
@@ -12,6 +12,8 @@
     <p><span class="infos-product">Qualité :</span> {{ details.qualite }}</p>
     <p><span class="infos-product">Prix :</span> {{ details.prix }} euros</p>
     <p><span class="infos-product">Rapport qualité/prix :</span> {{ rapportQP }} %</p>
+
+    <router-link to="/comparator" class="button-go-back">Retour</router-link>
   </div>
 </div>
 </template>
@@ -48,6 +50,7 @@ export default {
 .product-details{
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 </style>

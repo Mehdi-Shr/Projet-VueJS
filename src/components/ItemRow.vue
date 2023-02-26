@@ -23,7 +23,6 @@
 
 <script>
 import ProductDetails from "@/views/ProductDetails.vue"
-import eventBus from '@/event-bus.js';
 
 export default {
   name: "ItemRow",
@@ -59,28 +58,27 @@ export default {
     }
   },
   methods: {
-    toggle () {
-      this.modal = !this.modal
-    },
     select() {
-      this.selected = !this.selected;
+      // Get the current list of selected items from the store
+      const selectedItems = this.$store.getters.selectedItems
+
+      // Check if the maximum number of items has already been selected
+      if (selectedItems.length >= 2 && !this.selected) {
+        alert('You can only select a maximum of two items.')
+        return
+      }
+
+      this.selected = !this.selected
       if (this.selected) {
-        this.compare++;
-        if (this.compare <= 2) {
-          eventBus.$emit('item-selected', {
-            id: this.id,
-            image: this.image,
-            marque: this.marque,
-            volume: this.volume,
-            prix: this.prix
-          });
-        }
+        this.$store.commit('addItem', this.$props)
       } else {
-        this.compare--;
-        eventBus.$emit('item-deselected', this.id);
+        this.$store.commit('removeItem', this.$props)
       }
     }
   },
+  created() {
+    this.$store.commit('reset')
+  }
 }
 </script>
 

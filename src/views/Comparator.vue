@@ -7,7 +7,7 @@
       />
     </div>
 
-    <a href="#" class="button_comparator">Comparer</a>
+    <router-link to="/product-compare" class="button_comparator">Comparer</router-link>
   </main>
 </template>
 
