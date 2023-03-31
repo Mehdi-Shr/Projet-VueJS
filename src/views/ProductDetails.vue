@@ -1,47 +1,50 @@
 <template>
 <div class="product-details">
   <div v-if="loading" class="loader"></div>
-  <div v-if="!loading">
-    <img :src=details.image :alt=details.marque>
-    <h1>{{ details.marque }}</h1>
-    <p><span class="infos-product">Description :</span> {{ details.description }}</p>
-    <p><span class="infos-product">Source :</span> {{ details.source }}</p>
-    <p><span class="infos-product">Type d'eau :</span> {{ details.type }}</p>
-    <p><span class="infos-product">Type de bouchon :</span> {{ details.typeBouchon }}</p>
-    <p><span class="infos-product">Volume :</span> {{ details.volume }} Litres</p>
-    <p><span class="infos-product">Qualité :</span> {{ details.qualite }}</p>
-    <p><span class="infos-product">Prix :</span> {{ details.prix }} euros</p>
-    <p><span class="infos-product">Rapport qualité/prix :</span> {{ rapportQP }} %</p>
+  <div v-else>
+    <ProductInfo :details="details"/>
 
-    <router-link to="/comparator" class="button-go-back">Retour</router-link>
+    <div class="buttons">
+      <a class="button-go-back" @click="deleteP" v-if="$store.getters.isConnected">Supprimer</a>
+      <router-link :to="`/product/${details._id}/update`"  v-if="$store.getters.isConnected" class="button-go-back">Modifier</router-link>
+      <router-link to="/" class="button-go-back">Retour</router-link>
+    </div>
+
   </div>
 </div>
 </template>
 
 <script>
+import {getProduct, deleteProduct} from "@/api/product";
+import router from "@/router";
+import ProductInfo from "@/components/icons/ProductInfo.vue";
+
 export default {
   name: "ProductDetails",
-
+  components: {ProductInfo},
   data() {
     return {
       details : [],
       loading: true
     }
   },
-  computed : {
-    rapportQP() {
-      return this.details.prix/this.details.prix
+  methods : {
+    async deleteP() {
+      this.loading = true;
+      const response = await deleteProduct(this.details._id, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MjVjNmI5OGU0ODQ0MTYwMDAwMThkNSIsImlhdCI6MTY4MDE5NzMxM30.9CPedMQh0Yx23olwX38_zf5Npn_6H8diRR-prtPQSJg");
+      if(response.status === 200){
+       await router.push("/");
+      } else {
+        this.loading = false;
+      }
     }
   },
-  methods : {
-    async getData() {
-      const res = await fetch("http://localhost:3333/products/" + this.$route.params.id);
-      this.details = await res.json();
+  async mounted() {
+    const response = await getProduct(this.$route.params.id);
+    if(response.status === 200){
+      this.details = response.body;
       this.loading = false;
     }
-  },
-  mounted() {
-    this.getData()
   }
 }
 </script>
@@ -52,5 +55,13 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }
 </style>

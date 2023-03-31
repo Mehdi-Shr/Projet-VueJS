@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {register} from "@/api/user";
+
 export default {
   name: "Inscription",
   data: () => ({
@@ -73,22 +75,14 @@ export default {
   }),
   methods: {
     async handleSubmit() {
-      const res = await fetch("http://localhost:3333/users/register", {
-        method: "POST",
-        body: JSON.stringify(this.userData),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
+      const response = await register(this.userData)
 
-      const json = await res.json()
-      console.log(json)
-
-      if (res.status === 201) {
+      if (response.status === 200) {
         alert("Le compte a été créé")
         this.$router.push("/connexion")
       } else {
-        this.error = json.error
+        console.log("oui")
+        this.error = response.body.message
       }
     }
   }

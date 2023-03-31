@@ -1,23 +1,27 @@
 <template>
   <main class="container_home">
     <h1>Notre comparateur d'eaux</h1>
-    <div class="container-products-comparator">
-      <ListItem
-          :in-comparator=true
-      />
-    </div>
-
-    <router-link to="/product-compare" class="button_comparator">Comparer</router-link>
+      <div v-if="$store.getters.getProducts.product1">
+        <h2>Produit 1</h2>
+        <ProductInfo :details="$store.getters.getProducts.product1"/>
+      </div>
+      <div v-if="$store.getters.getProducts.product2">
+        <h2>Produit 2</h2>
+        <ProductInfo :details="$store.getters.getProducts.product2"/>
+      </div>
+      <p v-else>Veuillez sélectionner 2 produits à comparer</p>
   </main>
 </template>
 
 <script lang="ts">
 import ListItem from "@/components/ListItem.vue";
+import ProductInfo from "@/components/icons/ProductInfo.vue";
 
 export default {
   components: {
+    ProductInfo,
     ListItem,
-  },
+  }
 }
 
 </script>

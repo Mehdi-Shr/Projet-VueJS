@@ -1,3 +1,5 @@
+import {login} from "../api/user";
+
 const user = {
     state: () => ({
         token: null,
@@ -9,6 +11,9 @@ const user = {
         },
     },
     getters: {
+        token (state) {
+          return state.token
+        },
         isConnected (state) {
             return state.token != null
         },
@@ -27,26 +32,15 @@ const user = {
         }
     },
     actions: {
-        async connexion (context, {email, password}) {
+        async connexion (context, data) {
             if(!context.getters.isConnected){
-                const res = await fetch("http://localhost:3333/users/login", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        email, password
-                    }),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                const json = await res.json()
+                const res = await login(data)
 
                 if (res.status === 200) {
-                    console.log(json.token);
-                    context.commit('setToken', {token: json.token})
+                    context.commit('setToken', {token: res.body.token})
                     return {message: "success"}
-
                 } else {
-                    return {message: json.error}
+                    return {message: res.body.message}
                 }
             }
             return null

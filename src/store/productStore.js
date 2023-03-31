@@ -1,24 +1,39 @@
 const product = {
-    state: {
-        selectedItems: []
+    state(){
+        return {
+            product1: null,
+            product2: null,
+            search: "",
+        }
     },
     getters: {
-        selectedItems: state => state.selectedItems
+        search(state) {
+          return state.search
+        },
+        getProducts: (state) => {
+            return {product1: state.product1, product2:state.product2 }
+        }
     },
     mutations: {
-        addItem(state, item) {
-            if (state.selectedItems.length < 2) {
-                state.selectedItems.push(item)
+        search(state, search) {
+            state.search = search;
+        },
+        addProduct(state, product) {
+            if(!state.product1 && !state.product2){
+                state.product1 = product
+            } else if(!state.product1) {
+                if(state.product2._id != product._id) state.product1 = product;
+            } else {
+                if(state.product1._id != product._id) state.product2 = product;
             }
         },
-        removeItem(state, item) {
-            const index = state.selectedItems.indexOf(item)
-            if (index !== -1) {
-                state.selectedItems.splice(index, 1)
-            }
+        removeProduct(state, product) {
+            if(state.product1 && state.product1._id == product._id) state.product1 = null;
+            else if(state.product2 && state.product2._id == product._id) state.product2 = null;
         },
         reset(state) {
-            state.selectedItems = []
+            state.product1 = null;
+            state.product2 = null;
         }
     }
 }
